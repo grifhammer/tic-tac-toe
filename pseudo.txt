@@ -1,0 +1,3 @@
+look for 2 of my spaces and empty third
+look for 2 of enemy spaces and empty third
+look for empty space

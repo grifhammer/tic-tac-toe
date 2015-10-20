@@ -37,6 +37,81 @@ var randButton = {};
 var mark       = '';
 var won        = false;
 
+
+// GOODSQR()
+// Finds a good square for the computer to select
+function goodSqr(){
+    var thisWin = [];
+    var winCount = 0;
+    var emptyCount = 0;
+    var blockRow = -1;
+    var winRow = -1;
+    var emptyRow = -1;
+    var blockCount = 0;
+    for(var i = 0; i< winners.length; i++){
+        thisWin = winners[i];
+        blockCount = 0;
+        winCount = 0;
+        emptyCount = 0;
+        for(var j = thisWin.length; j>=0; j--){
+            if(compSqrs.indexOf(thisWin[j]) > -1){
+                winCount++;
+                blockCount++;
+                emptyCount--;
+            }else if(playSqrs.indexOf(thisWin[j]) > -1){
+                blockCount--;
+                winCount--;
+                emptyCount--;
+            } else {                                                // UNUSED IF CODE if(compSqrs.indexOf( thisWin[j] ) === -1 && playSqrs.indexOf(thisWin[j]) === -1 ) 
+                emptyCount++;
+            }
+ 
+        }
+        // console.log(winCount);
+        // console.log(blockCount);
+        // console.log(emptyCount);
+        // if this win has only two computer spaces
+        // place into the third space for the win
+        if(winCount == 2){
+            winRow = i;
+            // i = winners.length;
+        } else if ( blockCount == -2){
+            blockRow = i;
+        } else if (emptyCount === 3){
+            emptyRow = i;
+        }
+        console.log("\n");
+    }
+    console.log("Winning row is: " + winRow);
+    console.log("Blocking row is: " + blockRow);
+    console.log("Empty row is: " + emptyRow);
+    // randomSqr();
+    var markThisButton;
+    // if a row was found where the computer can win
+    if(winRow > -1){
+        i = 0;
+        thisWin = winners[winRow];
+        while(compSqrs.indexOf(thisWin[i]) !== -1 && i<3){
+            i++;
+        }
+        markThisButton = document.getElementById(thisWin[i])
+        markSqr(markThisButton, true);
+    } else if(blockRow > -1){   //If a row was found where the computer needs to block
+        i = 0;
+        thisWin = winners[blockRow];
+        while(playSqrs.indexOf(thisWin[i]) !== -1 && i<3){
+            i++;
+        }
+        markThisButton = document.getElementById(thisWin[i]);
+        markSqr(markThisButton, true);
+    } else if(emptyRow > -1){
+        markThisButton = document.getElementById(thisWin[0]);
+        markSqr(markThisButton, true)
+    } else{
+        randomSqr();
+    }
+}
+
 // CHECKWINS()
 // Following selection ~
 // Check to see if there are any winning row
@@ -197,7 +272,8 @@ function compTurn() {
     compTimer = setTimeout(function() {
 
         // Select a random square
-        randomSqr();
+        // randomSqr();
+        goodSqr();
 
         // Reset 'thinking' variable
         compWait = false;
