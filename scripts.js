@@ -57,11 +57,11 @@ function goodSqr(){
             if(compSqrs.indexOf(thisWin[j]) > -1){
                 winCount++;
                 blockCount++;
-                emptyCount--;
+                emptyCount--;                               //Needs to be decremented because end result was 4 sometimes
             }else if(playSqrs.indexOf(thisWin[j]) > -1){
                 blockCount--;
                 winCount--;
-                emptyCount--;
+                emptyCount--;                               //Unsure why this needs to be decremented
             } else {                                                // UNUSED IF CODE if(compSqrs.indexOf( thisWin[j] ) === -1 && playSqrs.indexOf(thisWin[j]) === -1 ) 
                 emptyCount++;
             }
